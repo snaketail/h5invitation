@@ -1077,54 +1077,70 @@ input:focus, select:focus, textarea:focus{
 }
 
 
-@media (max-width: 768px) {
-  .form-card label {
-    font-size: 15px;
-  }
+/* =========================
+   Mobile visual rhythm
+   - move Page 3 / Page 4 cards higher
+   - keep animations intact (no transform overrides)
+   ========================= */
 
-  .form-card input,
-  .form-card select,
-  .form-card textarea {
-    font-size: 16px; /* prevents iOS zoom */
-    padding: 10px 12px;
-    border-radius: 12px;
-  }
-
-  .form-card textarea {
-    min-height: 44px; /* 1-line-ish feel */
-    height: 44px;
-    resize: none;
-  }
-
-  .form-card .submit-btn {
-    font-size: 16px;
-    padding: 12px 14px;
-    border-radius: 14px;
-  }
-}
-
-/* === Mobile: move Page 3 & Page 4 content higher === */
 @media (max-width: 768px){
-  /* 让内容从上开始排，而不是垂直居中 */
-  .page--info,
+  /* Use modern viewport units when available (prevents jump when address bar shows/hides) */
+  .page{ height: 100svh; }
+
+  /* General content spacing */
+  .content{
+    margin-top: calc(56px + env(safe-area-inset-top));
+    padding-top: 6vh;
+  }
+
+  /* Page 3 + Page 4: push content higher */
+  .page--facts,
   .page--form{
     align-items: flex-start;
   }
-
-  /* 只调整 Page 3/4 的 content，不影响其他页面 */
-  .page--info .content,
+  .page--facts .content,
   .page--form .content{
-    margin-top: 100px;       /* 原来是 72px，改小就会整体上移 */
+    margin-top: calc(42px + env(safe-area-inset-top));
     padding-top: 0;
-    padding-bottom: 84px;   /* 给底部导航留空间，避免遮挡 */
+  }
+
+  /* Page 3 cards: slightly tighter but clearer */
+  .facts-wrap{
+    max-width: min(560px, 92vw);
+    gap: 14px;
+  }
+  .fact-card{ padding: 16px 16px 14px; }
+  .fact-title{ font-size: 18px; }
+  .fact-value{ font-size: 28px; }
+  .fact-sub{ font-size: 15px; }
+
+  /* Page 4 form: comfortable but compact */
+  .formCard{
+    max-width: min(560px, 92vw);
+    padding: 18px 16px 16px;
+  }
+  .formGrid{ gap: 12px; }
+  .formField label{ font-size: 14px; }
+  .formField .req{ font-size: 12px; }
+  .input, select, textarea{ font-size: 16px; }
+  .input, select{ height: 46px; }
+  textarea{ height: 46px; }
+  .submitBtn{
+    height: 52px;
+    font-size: 18px;
   }
 }
 
-/* 更小屏（手机）再提一点 */
-@media (max-width: 480px){
-  .page--info .content,
-  .page--form .content{
-    margin-top: 60px;
-    padding-bottom: 92px;
-  }
+@media (max-width: 420px){
+  .facts-wrap{ gap: 12px; }
+  .fact-value{ font-size: 26px; }
+  .formCard{ padding: 16px 14px 14px; }
+  .submitBtn{ height: 50px; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .deck{ transition: none; }
+  .navBtn{ animation: none; }
+  .message .line, .cards--group{ transform: none !important; }
 }
